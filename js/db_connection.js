@@ -1,6 +1,7 @@
-'use strict';
-Object.defineProperty(exports, '__esModule', { value: true });
-const typeorm_1 = require('typeorm');
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const typeorm_1 = require("typeorm");
+const config_1 = require("./config");
 let connectionIfExists;
 /**
  * Returns the DB connnection
@@ -19,6 +20,6 @@ async function initDBConnectionAsync() {
     if (connectionIfExists !== undefined) {
         throw new Error('DB connection already exists');
     }
-    connectionIfExists = await typeorm_1.createConnection();
+    connectionIfExists = await typeorm_1.createConnection(config_1.getDatabaseConfig());
 }
 exports.initDBConnectionAsync = initDBConnectionAsync;

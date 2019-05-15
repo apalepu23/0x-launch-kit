@@ -5,6 +5,7 @@ import * as crypto from 'crypto';
 import * as fs from 'fs';
 import * as _ from 'lodash';
 import * as path from 'path';
+import {PostgresConnectionOptions} from 'typeorm/driver/postgres/PostgresConnectionOptions';
 
 const metadataPath = path.join(__dirname, '../../metadata.json');
 enum EnvVarType {
@@ -111,3 +112,20 @@ function getDefaultFeeRecipient(): string {
     }
     return newDefault;
 }
+
+export const getDatabaseConfig = (): PostgresConnectionOptions => {
+    const databaseDefaults = {
+        entities: [path.join(__dirname, '../lib/entity/**/*.js'), path.join(__dirname, '../../js/entity/**/*.js')],
+    };
+    return {
+        ...databaseDefaults,
+        type: 'postgres',
+        host: process.env.DB_HOST,
+        port: 5432,
+        username: process.env.DB_USERNAME,
+        password: process.env.DB_PASSWORD,
+        database: process.env.DB_NAME,
+        synchronize: false,
+        logging: true,
+    };
+};
